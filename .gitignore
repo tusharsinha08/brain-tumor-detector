@@ -1,0 +1,22 @@
+# Python
+venv/
+__pycache__/
+*.pyc
+
+# Node
+node_modules/
+
+# Environment
+.env
+
+# Uploads
+uploads/
+
+# ML Models
+*.keras
+*.h5
+*.pb
+
+# Build
+dist/
+build/
