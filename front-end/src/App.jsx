@@ -7,11 +7,11 @@ axios.defaults.timeout = 30000; // 30 second timeout
 function App() {
   const [file, setFile] = useState(null);
   const [preview, setPreview] = useState(null);
-  const [result, setResult] = useState("");
+  const [result, setResult] = useState({});
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [model, setModel] = useState("efficientnet");
-  const [gradcam, setGradcam] = useState("");
+  // const [gradcam, setGradcam] = useState("");
   const upload_img = '../src/assets/image/upload_img.png';
 
 
@@ -19,7 +19,7 @@ function App() {
     const selected = e.target.files[0];
     if (selected && selected.type.startsWith('image/')) {
       setFile(selected);
-      setGradcam("");
+      // setGradcam("");
       setPreview(URL.createObjectURL(selected));
       setError("");
       setResult("");
@@ -30,7 +30,6 @@ function App() {
 
   const upload = async () => {
     const currentModel = model;
-    console.log(currentModel);
 
     if (!file) {
       alert("Please select an image");
@@ -54,10 +53,14 @@ function App() {
 
 
       if (res.data.class && res.data.confidence !== undefined) {
-        setGradcam(res.data.gradcam);
-        setResult(
-          `${res.data.class} (${(res.data.confidence * 100).toFixed(2)}%)`
-        );
+        // setGradcam(res.data.gradcam);
+        const className = res.data.class;
+        const confidence = (res.data.confidence * 100).toFixed(2);
+
+        setResult({
+          class: className,
+          confidence: confidence
+        });
       } else {
         setError("Invalid response from server");
       }
@@ -83,12 +86,13 @@ function App() {
         </h1>
 
         {/* Preview */}
-        {gradcam ?
-          <img
-            src={`data:image/jpeg;base64,${gradcam}`}
-            alt="Grad-CAM"
-            className="w-72 h-72 object-cover mx-auto rounded-t-lg border border-gray-600"
-          /> :
+        {
+          // gradcam ?
+          //   <img
+          //     src={`data:image/jpeg;base64,${gradcam}`}
+          //     alt="Grad-CAM"
+          //     className="w-72 h-72 object-cover mx-auto rounded-t-lg border border-gray-600"
+          //   /> :
           preview ?
             <img
               src={preview}
@@ -101,20 +105,22 @@ function App() {
                 alt="upload mri"
                 className="w-72 h-72 object-cover mx-auto rounded-t-lg  border border-gray-600"
               />
-            )}
+            )
+        }
 
         {/* Result */}
-        {result ?
+        {result.class && result.confidence ?
           <div className="mb-4 p-2 mx-auto w-72 bg-green-700 rounded-b-lg">
-            <p className="text-lg font-semibold text-white">{result}</p>
+            <p className="text-lg font-semibold text-white">{result.class} </p>
+            <p className="text-sm text-gray-300">(Confidence: {result.confidence}%)</p>
           </div>
-          : (
-            <div className="mb-4 p-2 mx-auto w-72 bg-gray-700 rounded-b-lg">
-              <p className="text-lg font-semibold text-gray-300 cursor-not-allowed">
-                {loading ? "Detecting..." : "Result"}
-              </p>
-            </div>
-          )}
+          :
+          <div className="mb-4 p-2 mx-auto w-72 bg-gray-700 rounded-b-lg">
+            <p className="text-lg font-semibold text-gray-300 cursor-not-allowed">
+              {loading ? "Detecting..." : "Result"}
+            </p>
+          </div>
+        }
 
         {/* Error */}
         {error && (
@@ -144,11 +150,11 @@ function App() {
              bg-gray-800 truncate"
           >
             <option value="efficientnet">EfficientNet - Accuracy: 94%</option>
-            <option value="resnet">ResNet - Accuracy: 92%</option>
             <option value="xception">Xception - Accuracy: 95%</option>
             <option value="inception">Inception - Accuracy: 94%</option>
             <option value="densenet">DenseNet - Accuracy: 94%</option>
             <option value="vgg">VGG - Accuracy: 88%</option>
+            <option value="resnet">ResNet - Accuracy: 88%</option>
             <option value="effnet_densenet">EfficientNet + DenseNet - Accuracy: 88%</option>
             <option value="effnet_resnet">EfficientNet + ResNet - Accuracy: 88%</option>
             <option value="baseline">Baseline CNN - Accuracy: 52%</option>
@@ -158,7 +164,7 @@ function App() {
           <button
             onClick={upload}
             disabled={loading || !file}
-            className="bg-blue-600 hover:bg-blue-700 disabled:bg-gray-600 disabled:cursor-not-allowed px-6 py-2 rounded-lg font-semibold transition text-white"
+            className="bg-blue-600 hover:bg-blue-700 disabled:bg-gray-600 disabled:cursor-not-allowed px-6 py-2 rounded-lg font-semibold transition text-white cursor-pointer w-72"
           >
             {loading ? "Processing..." : "Predict"}
           </button>
