@@ -13,21 +13,20 @@ CORS(app)
 class_labels = ['Glioma Tumor', 'No tumor', 'Meningioma Tumor', 'Pituitary Tumor']
 
 #  Get absolute path (IMPORTANT FIX)
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-MODEL_DIR = os.path.join(BASE_DIR, "../models")
+# BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+# MODEL_DIR = os.path.join(BASE_DIR, "../models")
 
-# Load only one model 
+# # Load only one model 
 DEFAULT_MODEL = "efficientnetb0_model.h5"
 
-model_path = os.path.join(MODEL_DIR, DEFAULT_MODEL)
+# model_path = os.path.join(MODEL_DIR, DEFAULT_MODEL)
 model = None;
-
 try:
-    model = load_model(model_path, compile=False)
+    model = load_model('efficientnetb0_model.h5', compile=False)
+    # model = load_model(model_path, compile=False)
     print(f"Loaded model: {DEFAULT_MODEL}")
 except Exception as e:
     print(f"❌ Failed to load model: {e}")
-    model = None
 
 
 # MODEL_MAP = {
