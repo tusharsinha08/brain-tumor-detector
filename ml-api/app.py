@@ -131,7 +131,14 @@ def generate_gradcam(model, img_array, original_img):
 
     return gradcam_base64
 
-
+@app.route('/')
+def home():
+    return {
+        "status": "running", 
+        "message": "Brain Tumor Detection API",
+        "available_models": list(models.keys()),
+        "models_loaded": len([m for m in models if models[m] is not None])
+    }
 
 @app.route('/predict', methods=['POST'])
 def predict():
