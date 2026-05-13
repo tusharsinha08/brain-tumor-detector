@@ -10,8 +10,8 @@ function App() {
   const [result, setResult] = useState({});
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [model, setModel] = useState("efficientnet");
-  // const [gradcam, setGradcam] = useState("");
+  // const [model, setModel] = useState("efficientnet");
+  const [gradcam, setGradcam] = useState("");
   const upload_img = '../src/assets/image/upload_img.png';
 
 
@@ -19,7 +19,7 @@ function App() {
     const selected = e.target.files[0];
     if (selected && selected.type.startsWith('image/')) {
       setFile(selected);
-      // setGradcam("");
+      setGradcam("");
       setPreview(URL.createObjectURL(selected));
       setError("");
       setResult("");
@@ -29,7 +29,8 @@ function App() {
   };
 
   const upload = async () => {
-    const currentModel = model;
+    // const currentModel = model;
+    const currentModel = "efficientnet";
 
     if (!file) {
       alert("Please select an image");
@@ -53,7 +54,7 @@ function App() {
 
 
       if (res.data.class && res.data.confidence !== undefined) {
-        // setGradcam(res.data.gradcam);
+        setGradcam(res.data.gradcam);
         const className = res.data.class;
         const confidence = (res.data.confidence * 100).toFixed(2);
 
@@ -87,12 +88,12 @@ function App() {
 
         {/* Preview */}
         {
-          // gradcam ?
-          //   <img
-          //     src={`data:image/jpeg;base64,${gradcam}`}
-          //     alt="Grad-CAM"
-          //     className="w-72 h-72 object-cover mx-auto rounded-t-lg border border-gray-600"
-          //   /> :
+          gradcam ?
+            <img
+              src={`data:image/jpeg;base64,${gradcam}`}
+              alt="Grad-CAM"
+              className="w-72 h-72 object-cover mx-auto rounded-t-lg border border-gray-600"
+            /> :
           preview ?
             <img
               src={preview}
@@ -138,7 +139,7 @@ function App() {
             className="mb-4 text-sm text-white border border-gray-500 rounded-sm p-2 w-72 cursor-pointer"
           />
 
-          <select
+          {/* <select
             value={model}
             // onChange={(e) => setModel(e.target.value)}
             onChange={(e) => {
@@ -158,7 +159,7 @@ function App() {
             <option value="effnet_densenet">EfficientNet + DenseNet - Accuracy: 88%</option>
             <option value="effnet_resnet">EfficientNet + ResNet - Accuracy: 88%</option>
             <option value="baseline">Baseline CNN - Accuracy: 52%</option>
-          </select>
+          </select> */}
 
           {/* Button */}
           <button
