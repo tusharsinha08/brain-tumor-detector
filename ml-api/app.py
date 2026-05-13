@@ -24,7 +24,7 @@ MODEL_MAP = {
     "densenet": "densenet121_model.keras",
     "vgg": "vgg16_model.keras",
     "effnet_densenet": "final_effi_dense_model.keras",
-    "effnet_resnet": "final_effi_resn_model.keras",
+    "effnet_resnet": "hybrid_effi_resn_model.keras",
     "baseline": "final_baseline_cnn_model.keras",
 }
 
