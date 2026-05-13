@@ -18,14 +18,14 @@ MODEL_DIR = os.path.join(BASE_DIR, "../models")
 
 MODEL_MAP = {
     "efficientnet": "efficientnetb0_model.keras",
-    "resnet": "resnet50_model.keras",
+    "resnet": "final_resnet50_model.keras",
     "xception": "xception_model.keras",
     "inception": "inceptionV3_model.keras",
     "densenet": "densenet121_model.keras",
     "vgg": "vgg16_model.keras",
-    "effnet_densenet": "hybrid_effi_dense_model.keras",
-    "effnet_resnet": "hybrid_effi_resn_model.keras",
-    "baseline": "baseline_cnn_model.keras",
+    "effnet_densenet": "final_effi_dense_model.keras",
+    "effnet_resnet": "final_effi_resn_model.keras",
+    "baseline": "final_baseline_cnn_model.keras",
 }
 
 # ✅ Load models safely
