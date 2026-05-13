@@ -17,14 +17,13 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 MODEL_DIR = os.path.join(BASE_DIR, "../models")
 
 # Load only one model 
-MODEL_DIR = os.path.join(BASE_DIR, "../models")
 DEFAULT_MODEL = "efficientnetb0_model.keras"
 
 model_path = os.path.join(MODEL_DIR, DEFAULT_MODEL)
 model = None;
 
 try:
-    model = load_model(model_path)
+    model = load_model(model_path, compile=False)
     print(f"Loaded model: {DEFAULT_MODEL}")
 except Exception as e:
     print(f"❌ Failed to load model: {e}")
