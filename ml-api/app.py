@@ -151,8 +151,9 @@ def home():
     return {
         "status": "running", 
         "message": "Brain Tumor Detection API",
-        "available_models": list(models.keys()),
-        "models_loaded": len([m for m in models if models[m] is not None])
+        "model": DEFAULT_MODEL,
+        # "available_models": list(models.keys()),
+        # "models_loaded": len([m for m in models if models[m] is not None])
     }
 
 # def get_model(model_name):
