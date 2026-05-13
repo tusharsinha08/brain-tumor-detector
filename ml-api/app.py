@@ -17,12 +17,12 @@ class_labels = ['Glioma Tumor', 'No tumor', 'Meningioma Tumor', 'Pituitary Tumor
 # MODEL_DIR = os.path.join(BASE_DIR, "../models")
 
 # # Load only one model 
-DEFAULT_MODEL = "efficientnetb0_model.h5"
+DEFAULT_MODEL = "efficientnetb0_model_1.h5"
 
 # model_path = os.path.join(MODEL_DIR, DEFAULT_MODEL)
 model = None;
 try:
-    model = load_model('efficientnetb0_model.h5', compile=False)
+    model = load_model('efficientnetb0_model_1.h5', compile=False)
     # model = load_model(model_path, compile=False)
     print(f"Loaded model: {DEFAULT_MODEL}")
 except Exception as e:
