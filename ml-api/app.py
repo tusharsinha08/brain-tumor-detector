@@ -17,7 +17,7 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 MODEL_DIR = os.path.join(BASE_DIR, "../models")
 
 # Load only one model 
-DEFAULT_MODEL = "efficientnetb0_model.keras"
+DEFAULT_MODEL = "efficientnetb0_model.h5"
 
 model_path = os.path.join(MODEL_DIR, DEFAULT_MODEL)
 model = None;

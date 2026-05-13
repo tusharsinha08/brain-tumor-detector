@@ -2,8 +2,8 @@ FROM tensorflow/tensorflow:2.18.0
 
 WORKDIR /app
 
-# Copy requirements and install
-COPY requirements.txt .
+# Copy requirements from ml-api folder and install
+COPY ml-api/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy your app and models
