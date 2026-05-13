@@ -2,7 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 
 // Configure axios defaults
-axios.defaults.timeout = 30000; // 30 second timeout
+axios.defaults.timeout = 60000; // 60 second timeout
 
 function App() {
   const [file, setFile] = useState(null);
@@ -46,7 +46,7 @@ function App() {
     setResult("");
 
     try {
-      const res = await axios.post("http://localhost:10000/predict", formData, {
+      const res = await axios.post("https://brain-tumor-detector-4.onrender.com/predict", formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

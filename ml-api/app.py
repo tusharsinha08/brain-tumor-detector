@@ -8,7 +8,8 @@ import tensorflow as tf
 from tensorflow.keras.models import load_model
 
 app = Flask(__name__)
-CORS(app)
+# CORS(app)
+CORS(app, supports_credentials=True)
 
 class_labels = ['Glioma Tumor', 'No tumor', 'Meningioma Tumor', 'Pituitary Tumor']
 
