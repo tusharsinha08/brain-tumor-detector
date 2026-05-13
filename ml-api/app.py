@@ -238,7 +238,7 @@ def predict():
 if __name__ == "__main__":
     print("\n" + "="*50)
     print("🚀 Flask Server Running")
-    print("📍 http://localhost:5002")
+    print("📍 http://localhost:10000")
     print("="*50 + "\n")
 
-    app.run(host='0.0.0.0', port=5002, debug=True, use_reloader=False)
+    app.run(host='0.0.0.0', port=10000, debug=True, use_reloader=False)
