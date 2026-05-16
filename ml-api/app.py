@@ -14,45 +14,45 @@ CORS(app, supports_credentials=True)
 class_labels = ['Glioma Tumor', 'No tumor', 'Meningioma Tumor', 'Pituitary Tumor']
 
 #  Get absolute path (IMPORTANT FIX)
-# BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-# MODEL_DIR = os.path.join(BASE_DIR, "../models")
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+MODEL_DIR = os.path.join(BASE_DIR, "../models")
 
 # # Load only one model 
-DEFAULT_MODEL = "efficientnetb0_model_1.h5"
+# DEFAULT_MODEL = "efficientnetb0_model_1.h5"
 
 # model_path = os.path.join(MODEL_DIR, DEFAULT_MODEL)
-model = None;
-try:
-    model = load_model('efficientnetb0_model_1.h5', compile=False)
-    # model = load_model(model_path, compile=False)
-    print(f"Loaded model: {DEFAULT_MODEL}")
-except Exception as e:
-    print(f"❌ Failed to load model: {e}")
+# model = None;
+# try:
+#     model = load_model('efficientnetb0_model_1.h5', compile=False)
+#     # model = load_model(model_path, compile=False)
+#     print(f"Loaded model: {DEFAULT_MODEL}")
+# except Exception as e:
+#     print(f"❌ Failed to load model: {e}")
 
 
-# MODEL_MAP = {
-#     "efficientnet": "efficientnetb0_model.keras",
-#     "resnet": "final_resnet50_model.keras",
-#     "xception": "xception_model.keras",
-#     "inception": "inceptionV3_model.keras",
-#     "densenet": "densenet121_model.keras",
-#     "vgg": "vgg16_model.keras",
-#     "effnet_densenet": "final_effi_dense_model.keras",
-#     "effnet_resnet": "hybrid_effi_resn_model.keras",
-#     "baseline": "final_baseline_cnn_model.keras",
-# }
+MODEL_MAP = {
+    "efficientnet": "efficientnetb0_model.keras",
+    "resnet": "final_resnet50_model.keras",
+    "xception": "xception_model.keras",
+    "inception": "inceptionV3_model.keras",
+    "densenet": "densenet121_model.keras",
+    "vgg": "vgg16_model.keras",
+    "effnet_densenet": "final_effi_dense_model.keras",
+    "effnet_resnet": "hybrid_efficientnetb0_resnet50_model.keras",
+    "baseline": "final_baseline_cnn_model.keras",
+}
 
 # Load models safely
-# models = {}
+models = {}
 
-# print("\n🔄 Loading models...")
-# for name, filename in MODEL_MAP.items():
-#     path = os.path.join(MODEL_DIR, filename)
-#     try:
-#         models[name] = load_model(path)
-#         print(f"✅ Loaded: {name}")
-#     except Exception as e:
-#         print(f"❌ Failed to load {name}: {e}")
+print("\n🔄 Loading models...")
+for name, filename in MODEL_MAP.items():
+    path = os.path.join(MODEL_DIR, filename)
+    try:
+        models[name] = load_model(path)
+        print(f"✅ Loaded: {name}")
+    except Exception as e:
+        print(f"❌ Failed to load {name}: {e}")
 
 print("🚀 Model loading complete\n")
 
@@ -150,9 +150,9 @@ def home():
     return {
         "status": "running", 
         "message": "Brain Tumor Detection API",
-        "model": DEFAULT_MODEL,
-        # "available_models": list(models.keys()),
-        # "models_loaded": len([m for m in models if models[m] is not None])
+        # "model": DEFAULT_MODEL,
+        "available_models": list(models.keys()),
+        "models_loaded": len([m for m in models if models[m] is not None])
     }
 
 # def get_model(model_name):
@@ -173,17 +173,18 @@ def predict():
         file = request.files['file']
         model_name = request.form.get("model", "efficientnet")
         
-        # print(f"📥 Model requested: {model_name}", flush=True)
+        print(f"📥 Model requested: {model_name}", flush=True)
         
 
         # # ✅ Validate model
-        # if model_name not in models:
-        #     return jsonify({"error": f"Invalid model: {model_name}"}), 400
+        if model_name not in models:
+            return jsonify({"error": f"Invalid model: {model_name}"}), 400
 
+        model = models[model_name]
         # model = get_model(model_name)
 
-        # print(f"📁 File: {file.filename}", flush=True)
-        # print(f"🤖 Model: {model_name}", flush=True)
+        print(f"📁 File: {file.filename}", flush=True)
+        print(f"🤖 Model: {model_name}", flush=True)
 
         # Read image
         file_bytes = np.frombuffer(file.read(), np.uint8)
@@ -224,7 +225,7 @@ def predict():
             }
         }
 
-        # print(f"✅ {model_name} → {result['class']} ({confidence*100:.2f}%)")
+        print(f"✅ {model_name} → {result['class']} ({confidence*100:.2f}%)")
 
         return jsonify(result)
 

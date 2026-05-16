@@ -10,7 +10,7 @@ function App() {
   const [result, setResult] = useState({});
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  // const [model, setModel] = useState("efficientnet");
+  const [model, setModel] = useState("efficientnet");
   const [gradcam, setGradcam] = useState("");
   const upload_img = '../src/assets/image/upload_img.png';
 
@@ -29,8 +29,8 @@ function App() {
   };
 
   const upload = async () => {
-    // const currentModel = model;
-    const currentModel = "efficientnet";
+    const currentModel = model;
+    // const currentModel = "efficientnet";
 
     if (!file) {
       alert("Please select an image");
@@ -46,7 +46,7 @@ function App() {
     setResult("");
 
     try {
-      const res = await axios.post("https://brain-tumor-detector-4.onrender.com/predict", formData, {
+      const res = await axios.post("http://localhost:10000/predict", formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -94,19 +94,19 @@ function App() {
               alt="Grad-CAM"
               className="w-72 h-72 object-cover mx-auto rounded-t-lg border border-gray-600"
             /> :
-          preview ?
-            <img
-              src={preview}
-              alt="preview"
-              className="w-72 h-72 object-cover mx-auto rounded-t-lg border border-gray-600"
-            />
-            : (
+            preview ?
               <img
-                src={upload_img}
-                alt="upload mri"
-                className="w-72 h-72 object-cover mx-auto rounded-t-lg  border border-gray-600"
+                src={preview}
+                alt="preview"
+                className="w-72 h-72 object-cover mx-auto rounded-t-lg border border-gray-600"
               />
-            )
+              : (
+                <img
+                  src={upload_img}
+                  alt="upload mri"
+                  className="w-72 h-72 object-cover mx-auto rounded-t-lg  border border-gray-600"
+                />
+              )
         }
 
         {/* Result */}
@@ -136,10 +136,11 @@ function App() {
             type="file"
             onChange={handleFile}
             accept="image/*"
-            className="mb-4 text-sm text-white border border-gray-500 rounded-sm p-2 w-72 cursor-pointer"
+            className={`mb-4 text-sm border border-gray-500 rounded-sm w-72 cursor-pointer file:text-white file:bg-gray-700 file:border-0 file:px-3 file:py-2  ${file ? "text-blue-800" : "text-red-600"
+              }`}
           />
 
-          {/* <select
+          <select
             value={model}
             // onChange={(e) => setModel(e.target.value)}
             onChange={(e) => {
@@ -150,22 +151,22 @@ function App() {
              border border-gray-500 rounded-sm p-2 
              bg-gray-800 truncate"
           >
-            <option value="efficientnet">EfficientNet - Accuracy: 94%</option>
-            <option value="xception">Xception - Accuracy: 95%</option>
-            <option value="inception">Inception - Accuracy: 94%</option>
+            <option value="xception">Xception - Accuracy: 96%</option>
+            <option value="efficientnet">EfficientNet - Accuracy: 93%</option>
+            <option value="inception">Inception - Accuracy: 93%</option>
             <option value="densenet">DenseNet - Accuracy: 94%</option>
-            <option value="vgg">VGG - Accuracy: 88%</option>
-            <option value="resnet">ResNet - Accuracy: 88%</option>
-            <option value="effnet_densenet">EfficientNet + DenseNet - Accuracy: 88%</option>
-            <option value="effnet_resnet">EfficientNet + ResNet - Accuracy: 88%</option>
-            <option value="baseline">Baseline CNN - Accuracy: 52%</option>
-          </select> */}
+            <option value="vgg">VGG - Accuracy: 90%</option>
+            <option value="resnet">ResNet - Accuracy: 90%</option>
+            <option value="effnet_densenet">EfficientNet + DenseNet - Accuracy: 86%</option>
+            <option value="effnet_resnet">EfficientNet + ResNet - Accuracy: 86%</option>
+            <option value="baseline">Baseline CNN - Accuracy: 54%</option>
+          </select>
 
           {/* Button */}
           <button
             onClick={upload}
             disabled={loading || !file}
-            className="bg-blue-600 hover:bg-blue-700 disabled:bg-gray-600 disabled:cursor-not-allowed px-6 py-2 rounded-lg font-semibold transition text-white cursor-pointer w-72"
+            className="bg-blue-800 hover:bg-blue-900 disabled:bg-gray-600 disabled:cursor-not-allowed px-6 py-2 rounded-lg font-semibold transition text-white cursor-pointer w-72"
           >
             {loading ? "Processing..." : "Predict"}
           </button>
